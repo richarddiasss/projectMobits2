@@ -24,23 +24,29 @@
 document.getElementById('login-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   
-  const response = await fetch('/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      number: document.getElementById('number').value,
-      password: document.getElementById('password').value,
-    })
-  });
-
-  const data = await response.json();
-  if (response.ok) {
-    localStorage.setItem('token', data.token);
-    window.location.href = '/menu'; // Redireciona após login
-  } else {
-    alert(data.error);
+  try {
+    const response = await fetch('/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        number: document.getElementById('number').value,
+        password: document.getElementById('password').value,
+      })
+    });
+  
+    const data = await response.json();
+    if (response.ok) {
+      localStorage.setItem('token', data.token);
+      window.location.href = '/menu'; // Redireciona após login
+    } else {
+      alert(data.message);
+      console.log(data.message);
+    }
+    
+  } catch (error) {
+    alert('Erro ao acessar conta: ');
   }
 });
 </script>

@@ -17,6 +17,18 @@
 </div>
 
 <script>
+
+  // Verificar autenticação ao carregar a página
+  document.addEventListener('DOMContentLoaded', () => {
+    const token = localStorage.getItem('token');
+    console.log("teste")
+    if (!token) {
+      alert('Você precisa estar logado para acessar esta página');
+      window.location.href = '/';
+      return;
+    }
+  });
+
   document.getElementById('saqueForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     

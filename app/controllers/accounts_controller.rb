@@ -16,7 +16,7 @@ class AccountsController < ApplicationController
           token = encode_token({ account_number: @account.number })
           render json: { token: token, account: @account }
       else
-          render json: { error: "numero da conta ou senha inválidos", erros: @account.errors },
+          render json: { message: "numero da conta ou senha inválidos", errors: @account.errors },
           status: :unprocessable_entity
 
       end
@@ -77,7 +77,7 @@ class AccountsController < ApplicationController
           render json: { account: @account, movimentation: movimentation, message: "deposito feito com sucesso" },
                       status: :ok
       else
-          render json: { messagem: "depósito não realizado", erro: @account.errors }
+          render json: { message: "depósito não realizado", erro: @account.errors }
       end
   end
 

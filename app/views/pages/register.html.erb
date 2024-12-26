@@ -60,7 +60,8 @@
         );
         window.location.href = '/menu';
       } else {
-        alert(data.error);
+
+        alert(data.message + ":\n" + data.errors.password);
       }
     } catch (error) {
       alert('Erro ao criar conta: ' + error.message);
