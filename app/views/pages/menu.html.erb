@@ -1,0 +1,71 @@
+<!-- app/views/dashboard/index.html.erb -->
+<div id="dashboard" style="display: none;">
+  <h1>Menu Principal</h1>
+  
+  <a href="/balance">1. Ver Saldo</a><br>
+  <a href="/lookTransations">2. Extrato</a><br>
+  <a href="/saque">3. Saque</a><br>
+  <a href="/deposit">4. Depósito</a><br>
+  <a href="/transfer">5. Transferência</a><br>
+  
+  <div id="vip-link" style="display: none;">
+    <button onclick="requestVisit()">6. Solicitar visita do gerente</button>
+  </div>
+  
+  <button onclick="handleLogout()">7. Sair</button>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    window.location.href = '/';
+    return;
+  }
+
+  try {
+    const response = await fetch('/account', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    
+    if (response.ok) {
+      const account = await response.json();
+      if (account.vip) {
+        document.querySelector('#vip-link').style.display = 'block';
+      }
+      document.getElementById('dashboard').style.display = 'block';
+    } else {
+      window.location.href = '/';
+    }
+  } catch (error) {
+    console.error('Erro ao carregar os dados do usuário:', error);
+    window.location.href = '/';
+  }
+});
+
+async function requestVisit() {
+  const token = localStorage.getItem('token');
+  try {
+    const response = await fetch('/visit', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      }
+    });
+    const data = await response.json();
+    alert(data.message);
+  } catch (error) {
+    alert('Erro ao solicitar visita. Tente novamente.');
+  }
+}
+
+function handleLogout() {
+  localStorage.removeItem('token');
+  window.location.href = '/';
+}
+</script>

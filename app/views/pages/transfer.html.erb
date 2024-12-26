@@ -1,0 +1,79 @@
+<div class="container mt-5">
+  <h2>Realizar Transferência</h2>
+  
+  <form id="transfer-form">
+    <div class="mb-3">
+      <label for="number_destiny">Número da Conta Destino</label>
+      <input type="text" 
+             class="form-control" 
+             id="number_destiny" 
+             maxlength="5"
+             required
+             placeholder="Digite o número da conta (5 dígitos)">
+    </div>
+
+    <div class="mb-3">
+      <label for="value">Valor da Transferência</label>
+      <input type="number" 
+             class="form-control" 
+             id="value" 
+             step="0.01" 
+             min="0.01" 
+             required>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Transferir</button>
+  </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    alert('Você precisa estar logado para acessar esta página');
+    window.location.href = '/';
+  }
+});
+
+document.getElementById('transfer-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  const numberDestiny = document.getElementById('number_destiny').value;
+  const value = parseFloat(document.getElementById('value').value);
+  
+  if (numberDestiny.length !== 5) {
+    alert('O número da conta deve ter exatamente 5 dígitos');
+    return;
+  }
+
+  try {
+    const response = await fetch('/transfer', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+      body: JSON.stringify({
+        number_destiny: numberDestiny,
+        value: value
+      })
+    });
+
+    const data = await response.json();
+    console.log(data)
+    
+    if (response.ok) {
+      alert(data.message);
+      document.getElementById('transfer-form').reset();
+    } else {
+      alert(data.message);
+    }
+  } catch (error) {
+    alert('Erro ao realizar transferência: ' + error.message);
+  }
+});
+
+document.getElementById('number_destiny').addEventListener('input', function(e) {
+  this.value = this.value.replace(/\D/g, '').slice(0, 5);
+});
+</script>

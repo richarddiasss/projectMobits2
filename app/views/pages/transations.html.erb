@@ -1,0 +1,103 @@
+<div class="container mt-5" id="transactions-container" style="display: none;">
+  <div class="card">
+    <div class="card-header">
+      <h2>Histórico de Transações</h2>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Data e Hora</th>
+              <th>Descrição</th>
+              <th>Valor</th>
+              <th>Taxa</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody id="transactions-table-body">
+          </tbody>
+        </table>
+      </div>
+      <div id="no-transactions" class="text-center p-4" style="display: none;">
+        <p>Nenhuma transação encontrada.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Verificar autenticação ao carregar a página
+document.addEventListener('DOMContentLoaded', async () => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    alert('Você precisa estar logado para acessar esta página');
+    window.location.href = '/';
+    return;
+  }
+
+  document.getElementById('transactions-container').style.display = 'block';
+  await loadTransactions();
+});
+
+// Função para formatar valores em reais
+const formatCurrency = (value) => {
+  return new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  }).format(value);
+};
+
+// Função para formatar a data e hora
+const formatDateTime = (dateString) => {
+  return new Date(dateString).toLocaleString('pt-BR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  });
+};
+
+// Carregar transações
+async function loadTransactions() {
+  try {
+    const response = await fetch('/transations', {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+
+    const transactions = await response.json();
+    const tableBody = document.getElementById('transactions-table-body');
+    const noTransactions = document.getElementById('no-transactions');
+
+    if (transactions.length === 0) {
+      tableBody.innerHTML = '';
+      noTransactions.style.display = 'block';
+      return;
+    }
+
+    noTransactions.style.display = 'none';
+    tableBody.innerHTML = transactions
+      .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Ordena por data mais recente
+      .map(transaction => {
+        const total = parseFloat(transaction.value) + (parseFloat(transaction.tax) || 0);
+        return `
+          <tr>
+            <td>${formatDateTime(transaction.created_at)}</td>
+            <td>${transaction.description}</td>
+            <td>${formatCurrency(transaction.value)}</td>
+            <td>${formatCurrency(transaction.tax || 0)}</td>
+            <td>${formatCurrency(total)}</td>
+          </tr>
+        `;
+      })
+      .join('');
+
+  } catch (error) {
+    alert('Erro ao carregar as transações: ' + error.message);
+  }
+}
+</script>

@@ -1,0 +1,66 @@
+<!-- app/views/accounts/get_value.html.erb -->
+<div class="container mx-auto p-6 flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="max-w-md bg-white rounded-lg shadow-md p-6 text-center">
+    <h1 class="text-2xl font-bold mb-4">Saldo da Conta</h1>
+    <p class="text-gray-500 mb-8">Confira o saldo atual da sua conta.</p>
+
+    <!-- Div que exibirá o saldo -->
+    <div id="account-value" class="text-4xl font-bold text-green-600 mb-8">Carregando...</div>
+
+    <!-- Botão para voltar à página anterior -->
+    <button onclick="handleBack()" class="px-6 py-3 bg-gray-600 text-white rounded hover:bg-gray-700">
+      Voltar
+    </button>
+  </div>
+</div>
+
+<script>
+  // Função para buscar o saldo e exibir diretamente na div
+  async function fetchAccountValue() {
+    const token = localStorage.getItem('token'); // Obtenha o token armazenado
+    const valueElement = document.getElementById('account-value');
+
+    if (!token) {
+      // Redireciona para a página de login se não autenticado
+      window.location.href = '/';
+      return;
+    }
+
+    try {
+      const response = await fetch('/getValue', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`, // Adicione o token no cabeçalho
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const value = data.value || 0;
+        // Atualiza a exibição do saldo diretamente
+        valueElement.textContent = `R$ ${parseFloat(value).toFixed(2).replace('.', ',')}`;
+      } else {
+        // Se der erro, exibe mensagem de erro no saldo
+        valueElement.textContent = 'Erro ao carregar saldo';
+        console.error('Erro:', response.status, response.statusText);
+      }
+    } catch (error) {
+      // Em caso de falha, exibe mensagem de erro no saldo
+      
+      valueElement.textContent = 'Erro ao carregar saldo';
+      window.location.href = '/';
+      console.error('Erro:', error);
+    }
+  }
+
+    // Função para voltar à página anterior
+  function handleBack() {
+    window.history.back(); // Retorna para a página anterior no histórico
+  }
+
+  // Chamar a função ao carregar a página
+  document.addEventListener('DOMContentLoaded', fetchAccountValue);
+</script>
+
+ 

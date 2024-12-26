@@ -1,0 +1,72 @@
+<div class="container mt-5" id="deposit-container" style="display: none;">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h2>Realizar Depósito</h2>
+        </div>
+        <div class="card-body">
+          <form id="deposit-form">
+            <div class="form-group mb-3">
+              <label for="value">Valor do Depósito</label>
+              <div class="input-group">
+                <span class="input-group-text">R$</span>
+                <input type="number" 
+                       class="form-control" 
+                       id="value" 
+                       name="value" 
+                       step="0.01" 
+                       min="0.01" 
+                       required>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Depositar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Verificar token ao carregar a página
+document.addEventListener('DOMContentLoaded', () => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    alert('Você precisa estar logado para acessar esta página');
+    window.location.href = '/';
+    return;
+  }
+  
+  document.getElementById('deposit-container').style.display = 'block';
+});
+
+// Manipular o formulário de depósito
+document.getElementById('deposit-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  const value = document.getElementById('value').value;
+  
+  try {
+    const response = await fetch('/deposit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+      body: JSON.stringify({ value })
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      alert(`Depósito realizado com sucesso!\nSaldo atual: R$ ${data.account.value_account}`);
+      document.getElementById('deposit-form').reset();
+    } else {
+      throw new Error(data.messagem || 'Erro ao realizar depósito');
+    }
+  } catch (error) {
+    alert(error.message);
+  }
+});
+</script>
