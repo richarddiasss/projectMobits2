@@ -1,18 +1,5 @@
 class MovimentationsController < ApplicationController
   before_action :authorize
-  before_action :set_movimentation, only: %i[ show destroy]
-
-  # GET /movimentations
-  def index
-    @movimentations = Movimentation.all
-
-    render json: @movimentations
-  end
-
-  # GET /movimentations/1
-  def show
-    render json: @movimentation
-  end
 
   def transations
     @movimentation = Movimentation.where(account_number: @account.number)
@@ -30,12 +17,6 @@ class MovimentationsController < ApplicationController
     end
   end
 
-
-  # DELETE /movimentations/1
-  def destroy
-    @movimentation.destroy!
-  end
-
   def destroyall
     Movimentation.delete_all
   end
@@ -46,6 +27,10 @@ class MovimentationsController < ApplicationController
     values = params.permit(:value, :number_destiny) # Filtra os parâmetros permitidos
     value_transfer = values[:value].to_f
     number_destiny = values[:number_destiny].to_i
+
+    if value_transfer < 0
+      return  render json: { message: "valor transferido precisa ser positivo" }
+    end
 
     if @account.number == number_destiny
       return render json: { message: "inválido realizar transferência para si mesmo." }
@@ -85,7 +70,7 @@ class MovimentationsController < ApplicationController
       @account.update_column(:value_account, @account.value_account - (value_tranfer + tax_user))
       movimentation_destiny = Movimentation.create(
         account_number: @account.number,
-        description: "Transferencia feita para #{user_destiny.name}",
+        description: "Transferência feita para #{user_destiny.name}",
         value: value_tranfer,
         tax: tax_user
       )
@@ -96,11 +81,6 @@ class MovimentationsController < ApplicationController
     def exist_user(number)
       account = Account.find_by(number: number)
       account
-    end
-
-    # Use callbacks to share common setup or constraints between actions.
-    def set_movimentation
-      @movimentation = Movimentation.find(params.expect(:id))
     end
 
     # Only allow a list of trusted parameters through.

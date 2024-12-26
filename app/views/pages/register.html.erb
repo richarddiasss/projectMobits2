@@ -1,57 +1,69 @@
-<div class="container mt-5">
-  <h2>Criar Nova Conta</h2>
-  
-  <%= form_tag '/accounts', method: :post, id: 'create-account-form' do %>
-    <div class="form-group">
-      <%= label_tag :name, 'Nome' %>
-      <%= text_field_tag :name, nil, class: 'form-control' %>
-    </div>
+<div class="create-account-page">
+  <div class="create-account-container">
+    <h2 class="create-account-title">Criar Nova Conta</h2>
 
-    <div class="form-group">
-      <%= label_tag :password, 'Senha' %>
-      <%= password_field_tag :password, nil, class: 'form-control' %>
-    </div>
-
-    <div class="form-group">
-      <div class="form-check">
-        <%= check_box_tag :is_vip, '1', false, class: 'form-check-input' %>
-        <%= label_tag :is_vip, 'Conta VIP', class: 'form-check-label' %>
+    <%= form_tag '/accounts', method: :post, id: 'create-account-form', class: 'create-account-form' do %>
+      <div class="form-group">
+        <%= label_tag :name, 'Nome', class: 'form-label' %>
+        <%= text_field_tag :name, nil, class: 'form-input', id: 'name' %>
       </div>
-    </div>
 
-    <%= submit_tag 'Criar Conta', class: 'btn btn-primary' %>
-  <% end %>
+      <div class="form-group">
+        <%= label_tag :password, 'Senha', class: 'form-label' %>
+        <%= password_field_tag :password, nil, class: 'form-input', id: 'password' %>
+      </div>
+
+      <div class="form-group">
+        <div class="form-check">
+          <%= check_box_tag :is_vip, '1', false, class: 'form-check-input', id: 'is_vip' %>
+          <%= label_tag :is_vip, 'Conta VIP', class: 'form-check-label' %>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <%= submit_tag 'Criar Conta', class: 'btn btn-primary' %>
+        <button type="button" class="btn btn-secondary" onclick="window.history.back()">Voltar</button>
+      </div>
+    <% end %>
+  </div>
 </div>
 
 <script>
-document.getElementById('create-account-form').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  
-  const formData = {
-    name: document.getElementById('name').value,
-    password: document.getElementById('password').value,
-    vip: document.getElementById('is_vip').checked
-  };
+  document.getElementById('create-account-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-  const response = await fetch('/accounts', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(formData)
-  });
+    const formData = {
+      name: document.getElementById('name').value,
+      password: document.getElementById('password').value,
+      vip: document.getElementById('is_vip').checked,
+    };
 
-  const data = await response.json();
-  const account = data.account;
-  if (response.ok) {
-    localStorage.setItem('token', data.token);
-    alert(`Conta criada com sucesso!\n
+    try {
+      const response = await fetch('/accounts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+      const account = data.account;
+
+      if (response.ok) {
+        localStorage.setItem('token', data.token);
+        alert(
+          `Conta criada com sucesso!\n
            Nome: ${account.name}\n
-           numero: ${account.number}\n
-           VIP: ${formData.is_vip ? 'Sim' : 'Não'}`);
-    window.location.href = '/menu';
-  } else {
-    alert(data.error);
-  }
-});
+           Número: ${account.number}\n
+           VIP: ${account.vip ? 'Sim' : 'Não'}`
+        );
+        window.location.href = '/menu';
+      } else {
+        alert(data.error);
+      }
+    } catch (error) {
+      alert('Erro ao criar conta: ' + error.message);
+    }
+  });
 </script>

@@ -1,30 +1,32 @@
-<div class="container mt-5" id="transactions-container" style="display: none;">
-  <div class="card">
-    <div class="card-header">
-      <h2>Histórico de Transações</h2>
-    </div>
-    <div class="card-body">
-      <div class="table-responsive">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Data e Hora</th>
-              <th>Descrição</th>
-              <th>Valor</th>
-              <th>Taxa</th>
-              <th>Total</th>
-            </tr>
-          </thead>
-          <tbody id="transactions-table-body">
-          </tbody>
-        </table>
-      </div>
-      <div id="no-transactions" class="text-center p-4" style="display: none;">
+<section class="transactions-section" id="transactions-container" style="display: none;">
+  <div class="transactions-card">
+    <header class="transactions-header">
+      <h2 class="transactions-title">Histórico de Transações</h2>
+    </header>
+    <main class="transactions-body">
+      <table class="transactions-table">
+        <thead>
+          <tr>
+            <th>Data e Hora</th>
+            <th>Descrição</th>
+            <th>Valor</th>
+            <th>Taxa</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody id="transactions-table-body"></tbody>
+      </table>
+      <div id="no-transactions" class="no-transactions" style="display: none;">
         <p>Nenhuma transação encontrada.</p>
       </div>
+    </main>
+    <div class="transactions-footer">
+      <button onclick="handleBack()" class="back-button">Voltar</button>
     </div>
   </div>
-</div>
+</section>
+
+
 
 <script>
 // Verificar autenticação ao carregar a página
@@ -100,4 +102,9 @@ async function loadTransactions() {
     alert('Erro ao carregar as transações: ' + error.message);
   }
 }
+
+// Função para voltar à página anterior
+  function handleBack() {
+    window.history.back(); // Retorna para a página anterior no histórico
+  }
 </script>

@@ -1,0 +1,77 @@
+
+.transactions-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  background-color: #f3f4f6;
+  min-height: 100vh;
+}
+
+.transactions-card {
+  background-color: #ffffff; 
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  width: 100%;
+}
+
+.transactions-header {
+  padding: 16px 24px;
+  background-color: #374151; 
+  border-radius: 8px 8px 0 0;
+  color: #ffffff;
+}
+
+.transactions-title {
+  font-size: 1.5rem; /* xl */
+  font-weight: 700; /* Bold */
+}
+
+.transactions-body {
+  padding: 24px;
+}
+
+.transactions-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.transactions-table th,
+.transactions-table td {
+  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e5e7eb; /* Cinza claro */
+}
+
+.transactions-table th {
+  background-color: #f9fafb; /* Cinza muito claro */
+  font-weight: 600; /* Semibold */
+}
+
+.transactions-table tr:hover {
+  background-color: #f1f5f9; /* Cinza claro */
+}
+
+.no-transactions {
+  text-align: center;
+  padding: 16px;
+  color: #6b7280; /* Cinza médio */
+}
+
+.transactions-footer {
+  padding: 16px;
+  text-align: center;
+  
+}
+
+.back-button{
+  padding: 12px 24px;
+  background-color: #374151; /* Cinza escuro */
+  color: #ffffff; /* Branco */
+  border-radius: 8px;
+  font-size: 1rem; /* Base */
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease;
+}

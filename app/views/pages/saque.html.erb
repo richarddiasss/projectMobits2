@@ -1,14 +1,20 @@
-<!-- app/views/accounts/saque.html.erb -->
-<h1>Realizar Saque</h1>
+<div class="withdraw-container">
+  <header class="withdraw-header">
+    <h1>Realizar Saque</h1>
+  </header>
 
-<form id="saqueForm">
-  <label for="value">Valor do Saque:</label>
-  <input type="number" id="value" name="value" step="0.01" min="0" required>
-  
-  <button type="submit">Realizar Saque</button>
-</form>
+  <form id="saqueForm" class="withdraw-form">
+    <div class="form-group">
+      <label for="value" class="form-label">Valor do Saque:</label>
+      <input type="number" id="value" name="value" class="form-input" step="0.01" min="0" required>
+    </div>
+    <button type="submit" class="form-button">Realizar Saque</button>
+  </form>
 
-<button onclick="history.back()">Voltar</button>
+  <div class="withdraw-footer">
+    <button onclick="history.back()" class="back-button">Voltar</button>
+  </div>
+</div>
 
 <script>
   document.getElementById('saqueForm').addEventListener('submit', async (e) => {

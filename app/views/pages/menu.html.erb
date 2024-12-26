@@ -1,18 +1,19 @@
-<!-- app/views/dashboard/index.html.erb -->
-<div id="dashboard" style="display: none;">
-  <h1>Menu Principal</h1>
-  
-  <a href="/balance">1. Ver Saldo</a><br>
-  <a href="/lookTransations">2. Extrato</a><br>
-  <a href="/saque">3. Saque</a><br>
-  <a href="/deposit">4. Depósito</a><br>
-  <a href="/transfer">5. Transferência</a><br>
-  
-  <div id="vip-link" style="display: none;">
-    <button onclick="requestVisit()">6. Solicitar visita do gerente</button>
+<div id="dashboard" class="dashboard-container">
+  <h1 class="menu-title">Menu Principal</h1>
+  <div class="links-div">
+    <a href="/balance" class="menu-button">Ver Saldo</a>
+    <a href="/lookTransations" class="menu-button">Extrato</a>
+    <a href="/saque" class="menu-button">Saque</a>
+    <a href="/deposit" class="menu-button">Depósito</a>
+    <a href="/transfer" class="menu-button">Transferência</a>
+
   </div>
   
-  <button onclick="handleLogout()">7. Sair</button>
+  <div id="vip-link" class="vip-link hidden">
+    <button class="menu-button vip-button" onclick="requestVisit()">Solicitar visita do gerente</button>
+  </div>
+  
+  <button class="menu-button logout-button" onclick="handleLogout()">Sair</button>
 </div>
 
 <script>

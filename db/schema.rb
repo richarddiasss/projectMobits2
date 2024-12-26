@@ -10,15 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_24_025812) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_26_151246) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "accounts", primary_key: "number", id: :serial, force: :cascade do |t|
     t.string "name"
-    t.boolean "vip"
+    t.boolean "vip", default: false
     t.string "password_digest"
-    t.decimal "value_account"
+    t.decimal "value_account", precision: 10, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -1,23 +1,23 @@
-# app/views/pages/login.html.erb
-<div class="container mt-5">
-  <h2>Login</h2>
+<div class="login-container">
+  <h2 class="login-title">Login</h2>
 
-  <%= form_tag '/login', method: :post, id: 'login-form' do %>
-    <div class="form-group">
-      <%= label_tag :number, 'Número da Conta' %>
-      <%= text_field_tag :number, nil, class: 'form-control' %>
+  <%= form_tag '/login', method: :post, id: 'login-form', class: 'login-form' do %>
+    <div class="login-form-group">
+      <%= label_tag :number, 'Número da Conta', class: 'login-label' %>
+      <%= text_field_tag :number, nil, class: 'login-input' %>
     </div>
 
-    <div class="form-group">
-      <%= label_tag :password, 'Senha' %>
-      <%= password_field_tag :password, nil, class: 'form-control' %>
+    <div class="login-form-group">
+      <%= label_tag :password, 'Senha', class: 'login-label' %>
+      <%= password_field_tag :password, nil, class: 'login-input' %>
     </div>
 
-    <%= submit_tag 'Entrar', class: 'btn btn-primary' %>
+    <%= submit_tag 'Entrar', class: 'login-button' %>
   <% end %>
-  <%= link_to '/signup', class: "block w-full py-3 px-4 bg-green-600 text-white rounded hover:bg-green-700 text-center" do %>
-            não possuo conta!
-          <% end %>
+  
+  <%= link_to '/signup', class: "signup-link" do %>
+    não possuo conta!
+  <% end %>
 </div>
 
 <script>

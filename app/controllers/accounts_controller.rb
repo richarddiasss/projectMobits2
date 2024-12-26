@@ -2,11 +2,6 @@ class AccountsController < ApplicationController
   include ActionController::MimeResponds  # Adiciona o módulo necessário
   before_action :authorize, only: [ :get_value, :deposit, :saque, :visit, :getAccount ]
 
-  def index
-      @accounts = Account.all
-      render json: @accounts
-  end
-
   def getAccount
       render json: @account
   end
@@ -28,13 +23,12 @@ class AccountsController < ApplicationController
   end
 
   def login
-      senha = account_params_login[:password]
       @account = Account.find_by(number: account_params_login[:number])
       if @account && @account.authenticate(account_params_login[:password])
         token = encode_token({ account_number: @account.number })
         render json: { account: @account, token: token }, status: :ok
       else
-        render json: { error: "número da conta ou senha inválidos", user: @account, senha: senha }, status: :unauthorized
+        render json: { message: "número da conta ou senha inválidos", error: @account.errors }, status: :unauthorized
       end
   end
 
@@ -46,7 +40,7 @@ class AccountsController < ApplicationController
       value_retired = params[:value].to_d
       current_value = @account.value_account - value_retired
       if value_retired < 0
-        return  render json: { message: "valor precisa ser positivos" }
+        return  render json: { message: "valor precisa ser positivo" }
       end
 
       if !(@account.vip)
@@ -69,10 +63,15 @@ class AccountsController < ApplicationController
   def deposit
       amount_deposited = params[:value].to_d
       current_value = @account.value_account + amount_deposited
+
+      if amount_deposited < 0
+        return  render json: { message: "valor precisa ser positivo" }
+      end
+
       if @account.update_column(:value_account, current_value)
           movimentation = Movimentation.create(
               account_number: @account.number,
-              description: "deposito",
+              description: "Depósito ",
               value: amount_deposited
           )
           render json: { account: @account, movimentation: movimentation, message: "deposito feito com sucesso" },

@@ -1,16 +1,14 @@
 <!-- app/views/accounts/get_value.html.erb -->
-<div class="container mx-auto p-6 flex items-center justify-center min-h-screen bg-gray-100">
-  <div class="max-w-md bg-white rounded-lg shadow-md p-6 text-center">
-    <h1 class="text-2xl font-bold mb-4">Saldo da Conta</h1>
-    <p class="text-gray-500 mb-8">Confira o saldo atual da sua conta.</p>
+<div class="account-container">
+  <div class="account-card">
+    <h1 class="account-title">Saldo da Conta</h1>
+    <p class="account-description">Confira o saldo atual da sua conta.</p>
 
     <!-- Div que exibirá o saldo -->
-    <div id="account-value" class="text-4xl font-bold text-green-600 mb-8">Carregando...</div>
+    <div id="account-value" class="account-balance">Carregando...</div>
 
     <!-- Botão para voltar à página anterior -->
-    <button onclick="handleBack()" class="px-6 py-3 bg-gray-600 text-white rounded hover:bg-gray-700">
-      Voltar
-    </button>
+    <button onclick="handleBack()" class="account-button">Voltar</button>
   </div>
 </div>
 

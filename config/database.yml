@@ -82,6 +82,7 @@ test:
 production:
   primary: &primary_production
     <<: *default
+    url: <%= ENV['DATABASE_URL'] %>
     database: mobits_project2_production
     username: mobits_project2
     password: <%= ENV["MOBITS_PROJECT2_DATABASE_PASSWORD"] %>

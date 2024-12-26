@@ -1,0 +1,55 @@
+/* Estilização exclusiva para a página de saldo */
+.account-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f3f4f6; /* Cinza claro */
+    padding: 24px;
+  }
+  
+  .account-card {
+    background-color: #ffffff; /* Branco */
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    padding: 24px;
+  }
+  
+  .account-title {
+    font-size: 1.875rem; /* 2xl */
+    font-weight: 700; /* Bold */
+    margin-bottom: 16px;
+    color: #1f2937; /* Cinza escuro */
+  }
+  
+  .account-description {
+    font-size: 1rem; /* Base */
+    color: #6b7280; /* Cinza médio */
+    margin-bottom: 32px;
+  }
+  
+  .account-balance {
+    font-size: 2.25rem; /* 4xl */
+    font-weight: 700; /* Bold */
+    color: #16a34a; /* Verde */
+    margin-bottom: 32px;
+  }
+  
+  .account-button {
+    padding: 12px 24px;
+    background-color: #374151; /* Cinza escuro */
+    color: #ffffff; /* Branco */
+    border-radius: 8px;
+    font-size: 1rem; /* Base */
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .account-button:hover {
+    background-color: #1f2937; /* Cinza mais escuro */
+  }
+  
