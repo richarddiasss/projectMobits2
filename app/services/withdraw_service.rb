@@ -40,7 +40,7 @@ class WithdrawService
     Movimentation.create(
       account_number: @account.number,
       description: "Saque",
-      value: @value
+      value: -@value
     )
   end
 end

@@ -53,7 +53,7 @@ class TransferService
         "Transferência enviada por #{@origin_account.name}", value)
 
       movimentation_destiny = create_movimentation(@origin_account.number,
-        "Transferência feita para #{destiny_account.name}", value, tax)
+        "Transferência feita para #{destiny_account.name}", -value, -tax)
 
       {
         movimentation_origin: movimentation_origin,

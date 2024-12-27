@@ -30,7 +30,7 @@ class VisitService
     Movimentation.create(
       account_number: @account.number,
       description: "Visita do gerente",
-      value: @price_visit
+      value: -@price_visit
     )
   end
 
