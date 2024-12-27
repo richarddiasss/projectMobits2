@@ -46,7 +46,7 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
     }
     
   } catch (error) {
-    alert('Erro ao acessar conta: ');
+    alert('Erro ao acessar conta', error.message);
   }
 });
 </script>
