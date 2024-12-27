@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   allow_browser versions: :modern
 
   def encode_token(payload)
-    JWT.encode(payload, "secret")
+    JWT.encode(payload, ENV["JWT_SECRET_KEY"])
   end
 
   def decode_token
@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
     if auth_header
       token = auth_header.split(" ").last
       begin
-        JWT.decode(token, "secret", true, algorithm: "HS256")
+        JWT.decode(token, ENV["JWT_SECRET_KEY"], true, algorithm: "HS256")
 
       rescue JWT::DecodeError
           nil
